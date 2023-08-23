@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Utilitarios {
-	List<Title> title;
+	List<Title> title; 
+	
+	double[][] mediaAvaliacao;
 
 	public Utilitarios() {
 		title = new ArrayList<>();
@@ -25,22 +27,30 @@ public class Utilitarios {
 				filmes.add(x);
 			}
 		}
-		return filmes;
+		if (filmes.size() > 0) {
+			return filmes;	
+		} else {
+			return null;
+		}
 	}
 	
 	public List<Title> listarSeries() {
 		List<Title> series = new ArrayList<>();
-		for (Title x : title) {
-			if (x.getTipo().equals("Serie")) {
-				series.add(x);
+		for (Title y : title) {
+			if (y.getTipo().equals("Serie")) {
+				series.add(y);
 			}
 		}
-		return series;
+		if (series.size() > 0) {
+			return series;
+		} else {
+			return null;
+		}
 	}
 
 	public Title buscarPorTitulo(String titulo) {
 		for (int i = 0; i < title.size(); i++) {
-			if (title.get(i).getTitulo() == titulo) {
+			if (title.get(i).getTitulo().equals(titulo)) {
 				return title.get(i);
 			}
 		}
@@ -50,21 +60,45 @@ public class Utilitarios {
 	public List<Title> buscaPorGenero(String genero) {
 		List<Title> buscaGenero = new ArrayList<>();
 		for (Title x : title) {
-			if (x.getGenero() == genero) {
+			if (x.getGenero().equals(genero)) {
 				buscaGenero.add(x);
 			}
 		}
-		return buscaGenero;
+		if (buscaGenero.size() > 0) {
+			return buscaGenero;
+		} else {
+			return null;
+		}
 	}
 
-	public List<Title> buscaPorAno(Integer ano) {
+	public List<Title> buscaPorAno(int ano) {
 		List<Title> buscaAno = new ArrayList<>();
 		for (Title x : title) {
 			if (x.getAnoLancamento() == ano) {
 				buscaAno.add(x);
 			}
 		}
-		return buscaAno;
+		if (buscaAno.size() > 0) {
+			return buscaAno;
+		} else {
+			return null;
+		}
+	}
+	
+	public void mediaAvaliacao(int usuarios, List<Integer> notas) {
+		mediaAvaliacao = new double [title.size()][usuarios];
+		for (int i = 1; i <= title.size(); i++) {
+			double soma = 0.0;
+			double media = 0.0;
+			for (int j = 1; j <= usuarios; j++) {
+				mediaAvaliacao[i][j] = notas.get(j - 1);
+				soma += mediaAvaliacao[i][j];
+			}
+			media = soma / notas.size();
+			title.get(i -1).setAvaliacao(media);
+			// consertar a contradicao da lista de notas para cada filme da matriz
+		}
+		
 	}
 	
 	

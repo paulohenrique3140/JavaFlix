@@ -4,14 +4,15 @@ import java.util.List;
 
 public class Title {
 	private String titulo;
-	private Integer anoLancamento;
+	private int anoLancamento;
 	private String genero;
 	private String tipo;
 	private String diretor;
 	private List<String> elenco;
 	private String sinopse;
+	private Double mediaAvaliacao;
 
-	public Title(String titulo, Integer anoLancamento, String genero, String tipo, String diretor, List<String> elenco, String sinopse) {
+	public Title(String titulo, int anoLancamento, String genero, String tipo, String diretor, List<String> elenco, String sinopse) {
 		this.titulo = titulo;
 		this.anoLancamento = anoLancamento;
 		this.genero = genero;
@@ -33,7 +34,7 @@ public class Title {
 		return anoLancamento;
 	}
 
-	public void setAnoLancamento(Integer anoLancamento) {
+	public void setAnoLancamento(int anoLancamento) {
 		this.anoLancamento = anoLancamento;
 	}
 
@@ -76,11 +77,15 @@ public class Title {
 	public void setSinopse(String sinopse) {
 		this.sinopse = sinopse;
 	}
+	
+	public void setAvaliacao(Double mediaAvaliacao) {
+		this.mediaAvaliacao = mediaAvaliacao;
+	}
 
 	@Override
 	public String toString() {
-		return String.format("\nTitulo: %s | Ano de Lancamneto: %d | Genero: %s | Tipo: %s | Diretor: %s | \nSinopse: %s\nElenco: %s\n",
-				titulo, anoLancamento, genero, tipo, diretor, sinopse, elenco);
+		return String.format("\nTitulo: %s | Ano de Lancamento: %d | Genero: %s | Tipo: %s | Diretor: %s | \nSinopse: %s\nElenco: %s | \nAvaliacao media: %.1f\n",
+				titulo, anoLancamento, genero, tipo, diretor, sinopse, elenco, mediaAvaliacao);
 	}
 
 }
