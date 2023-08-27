@@ -3,22 +3,26 @@ package application;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Locale;
 
+import entities.Avaliacoes;
 import entities.Title;
+//import entities.Usuarios;
 import entities.Utilitarios;
 
 public class Program {
 	public static void main(String[] args) {
+		Locale.setDefault(Locale.US);
 		Scanner input = new Scanner(System.in);
 		Utilitarios utilitarios = new Utilitarios();
+		List<Avaliacoes> avaliacoes = new ArrayList<>();;
 		int option;
 
 		System.out.println("### WELCOME TO JAVAFLIX ###");
 
 		do {
-			System.out.print(
-					"\nMenu: \n[1] Adicionar filme/serie\n[2] Listar filmes\n[3] Listar series\n"
-					+ "[4] Busca por titulo\n[5] Busca por genero\n[6] Busca por ano de lancamento\n[7] Sair\n\nDigite a opcao desejada: ");
+			System.out.print("\nMenu: \n[1] Adicionar filme/serie\n[2] Listar filmes\n[3] Listar series\n"
+					+ "[4] Busca por titulo\n[5] Busca por genero\n[6] Busca por ano de lancamento\n[7] Avaliar filme/serie\n[8] Sair\n\nDigite a opcao desejada: ");
 			option = input.nextInt();
 			switch (option) {
 			case 1:
@@ -93,6 +97,46 @@ public class Program {
 				}
 				break;
 			case 7:
+				System.out.println("### ABA DE ABALIACAO ###");
+				System.out.print("\nEscolha uma opcao: \n[1] Avaliar filme\n[2] Avaliar serie");
+				int newOption = input.nextInt();
+				
+				switch (newOption) {
+				case 1:
+					if (utilitarios.listarFilmes() != null) {
+						System.out.println(utilitarios.listarFilmes());
+					} else {
+						System.out.println("\nNao ha filmes registrados.");
+					}
+					System.out.print("Quantos usuarios irao avaliar? ");
+					int users = input.nextInt();
+					for (int i = 1; i <= users; i++) {
+						System.out.printf("Digite o id do %do. usuario: ", i);
+						int idUser = input.nextInt();
+						System.out.print("Digite o titulo do filme: ");
+						input.nextLine();
+						String tituloDois = input.nextLine();
+						System.out.printf("\nDigite a nota que o usuario %d da a este flme: ", i);
+						double nota = input.nextDouble();
+						avaliacoes.add(new Avaliacoes(idUser, nota));
+						if (utilitarios.addTitleToAvaliate(tituloDois) != null) {
+							utilitarios.addTitleToAvaliate(tituloDois);
+							System.out.printf("\n%da. avaliacao registrada!", i);
+						} else {
+							System.out.println("\nNao existem filmes com este titulo!");
+						}
+					}
+					utilitarios.mediaAvaliacao(users, avaliacoes, utilitarios.listarTitulos());
+					break;
+				case 2:
+					System.out.println("Hello");
+					break;
+				default:
+					System.out.println("Opcao invalida! Digite novamente: ");
+					break;
+				}
+				break;
+			case 8:
 				System.out.println("Encerrando o programa. Obrigado por usar o JavaFlix!");
 				break;
 			default:
@@ -100,8 +144,8 @@ public class Program {
 				option = input.nextInt();
 				break;
 			}
-			
-		} while (option != 7);
+
+		} while (option != 8);
 
 		input.close();
 	}

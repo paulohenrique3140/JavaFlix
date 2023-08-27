@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Utilitarios {
 	List<Title> title; 
+	List<Title> titleToAvaliate = new ArrayList<>();
 	
 	double[][] mediaAvaliacao;
 
@@ -15,9 +16,23 @@ public class Utilitarios {
 	public void addTitle(Title novo) {
 		title.add(novo);
 	}
+	
+	public List<Title> addTitleToAvaliate(String tituloDois) {
+		for (Title x : title) {
+			if (x.getTitulo().equals(tituloDois)) {
+				titleToAvaliate.add(x);
+				break;
+			}
+		}
+		return titleToAvaliate.size() > 0 ? titleToAvaliate : null;
+	}
 
 	public List<Title> listarTitulos() {
 		return title;
+	}
+	
+	public List<Title> listarTitulosParaAvaliacao() {
+		return titleToAvaliate;
 	}
 	
 	public List<Title> listarFilmes() {
@@ -85,18 +100,28 @@ public class Utilitarios {
 		}
 	}
 	
-	public void mediaAvaliacao(int usuarios, List<Integer> notas) {
-		mediaAvaliacao = new double [title.size()][usuarios];
-		for (int i = 1; i <= title.size(); i++) {
+	public void mediaAvaliacao(int usuarios, List<Avaliacoes> notas, List<Title> listaAvaliacao) {
+		mediaAvaliacao = new double [listaAvaliacao.size()][usuarios];
+		for (int i = 0; i < listaAvaliacao.size(); i++) {
 			double soma = 0.0;
-			double media = 0.0;
-			for (int j = 1; j <= usuarios; j++) {
-				mediaAvaliacao[i][j] = notas.get(j - 1);
+			/*for (int j = 0; j < usuarios; j++) {
+				mediaAvaliacao[i][j] = notas.get(j).getNota();
 				soma += mediaAvaliacao[i][j];
+			}*/
+			
+			for (Avaliacoes avaliacao : notas) {
+	 			mediaAvaliacao[i][avaliacao.getUsuario() - 1] = avaliacao.getNota();
+	 			soma += avaliacao.getNota();
 			}
-			media = soma / notas.size();
-			title.get(i -1).setAvaliacao(media);
-			// consertar a contradicao da lista de notas para cada filme da matriz
+			
+			double media = soma / usuarios;
+			// arrumar o calculo de media, esta para todas as avaliacoes, filtrar por filme
+			for (Title x : title) {
+				if (x.getTitulo().equals(listaAvaliacao.get(i).getTitulo())) {
+					x.setAvaliacao(media);
+				}
+			}
+			
 		}
 		
 	}

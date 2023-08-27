@@ -8,10 +8,6 @@ public class Usuarios {
 	private int idade;
 	private String email;
 	
-	public Usuarios() {
-		
-	}
-	
 	public Usuarios(String nome, int idade, String email) {
 		this.id = sequence++;
 		this.nome = nome;

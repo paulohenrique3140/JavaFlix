@@ -11,6 +11,10 @@ public class Title {
 	private List<String> elenco;
 	private String sinopse;
 	private Double mediaAvaliacao;
+	
+	public Title() {
+		
+	}
 
 	public Title(String titulo, int anoLancamento, String genero, String tipo, String diretor, List<String> elenco, String sinopse) {
 		this.titulo = titulo;
