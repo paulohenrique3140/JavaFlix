@@ -98,41 +98,45 @@ public class Program {
 				break;
 			case 7:
 				System.out.println("### ABA DE ABALIACAO ###");
-				System.out.print("\nEscolha uma opcao: \n[1] Avaliar filme\n[2] Avaliar serie");
+				System.out.print("\nMenu:\n[1] Avaliar titulo\n[2] Voltar: \n\nEscolha uma opcao: ");
 				int newOption = input.nextInt();
 				
 				switch (newOption) {
 				case 1:
 					if (utilitarios.listarFilmes() != null) {
+						System.out.println("### LISTA DE TITULOS ATUALIZADA ###");
 						System.out.println(utilitarios.listarFilmes());
+						if (utilitarios.listarSeries() != null) {
+							System.out.println(utilitarios.listarSeries());
+						}
+						System.out.print("Quantos usuarios irao avaliar? ");
+						int users = input.nextInt();
+						for (int i = 1; i <= users; i++) {
+							System.out.printf("\nDigite o id do %do. usuario: ", i);
+							int idUser = input.nextInt();
+							System.out.print("Digite o titulo do filme: ");
+							input.nextLine();
+							String tituloDois = input.nextLine();
+							System.out.printf("Digite a nota que o usuario %d da a este flme: ", i);
+							double nota = input.nextDouble();
+							avaliacoes.add(new Avaliacoes(idUser, nota, tituloDois));
+							if (utilitarios.addTitleToAvaliate(tituloDois) != null) {
+								utilitarios.addTitleToAvaliate(tituloDois);
+								System.out.printf("\n%da. avaliacao registrada!", i);
+							} else {
+								System.out.println("\nNao existem filmes com este titulo!");
+							}
+						}
+						utilitarios.mediaAvaliacao(users, avaliacoes, utilitarios.listarTitulos());
 					} else {
 						System.out.println("\nNao ha filmes registrados.");
 					}
-					System.out.print("Quantos usuarios irao avaliar? ");
-					int users = input.nextInt();
-					for (int i = 1; i <= users; i++) {
-						System.out.printf("Digite o id do %do. usuario: ", i);
-						int idUser = input.nextInt();
-						System.out.print("Digite o titulo do filme: ");
-						input.nextLine();
-						String tituloDois = input.nextLine();
-						System.out.printf("\nDigite a nota que o usuario %d da a este flme: ", i);
-						double nota = input.nextDouble();
-						avaliacoes.add(new Avaliacoes(idUser, nota));
-						if (utilitarios.addTitleToAvaliate(tituloDois) != null) {
-							utilitarios.addTitleToAvaliate(tituloDois);
-							System.out.printf("\n%da. avaliacao registrada!", i);
-						} else {
-							System.out.println("\nNao existem filmes com este titulo!");
-						}
-					}
-					utilitarios.mediaAvaliacao(users, avaliacoes, utilitarios.listarTitulos());
 					break;
 				case 2:
-					System.out.println("Hello");
+					System.out.println("Voltando ao menu anterior!");
 					break;
 				default:
-					System.out.println("Opcao invalida! Digite novamente: ");
+					System.out.println("Opcao invalida! Tente novamente: ");										
 					break;
 				}
 				break;
